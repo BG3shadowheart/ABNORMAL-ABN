@@ -1,0 +1,13 @@
+ABNORMAL logo updates
+=====================
+
+Applied product artwork mappings:
+- STREAMER PC — FULLY HIDDEN PHONE CONTROL: abnormal-gothic-rose-emblem.webp
+- FAKE LAG PC: abnormal-gothic-rose-emblem.webp
+- ABNORMAL AIMBOT PREMIUM PC: abnormal-gothic-rose-emblem.webp
+- ROCKET MOD: rocket-mod-emblem.webp
+- BR + FAKE LAG PC BUNDLE: br-mods-fake-lag-bundle.webp
+- AIM HACK — NON ROOT ANDROID continues to use aim-hack-non-root-ios-logo.webp,
+  matching AIM HACK — NON ROOT iOS.
+
+The three new assets are transparent WebP files in public/art/products/.
