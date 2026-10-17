@@ -1,0 +1,30 @@
+ABNORMAL product visual mapping
+================================
+
+The product cards and product detail pages now use one shared visual resolver:
+- DRIP products keep their previous ProductArtwork + product.logo overlay logic.
+- Every non-DRIP built-in product gets an explicit, slug-matched asset in
+  src/components/product-visual.tsx.
+- Non-DRIP product.logo fields were removed from the catalog, so no old logo
+  overlay or generic ABN fallback can be applied to those products.
+
+Explicit non-DRIP visual assignments:
+- BR MODS PC -> br-mods-pc.webp
+- FAKE LAG PC -> fake-lag-pc.webp
+- BR + FAKE LAG PC BUNDLE -> br-mods-fake-lag-bundle.webp
+- ABNORMAL AIMBOT PREMIUM PC -> abnormal-aimbot-premium-pc.webp
+- STREAMER PC -> streamer-pc-fully-hidden-phone-control.webp
+- BR MODS ANDROID -> br-mods-android.webp
+- PRIME APK MOD -> prime-apk-mod.webp
+- AIM HACK — NON ROOT ANDROID -> aim-hack-non-root-android.webp
+- PATO BLUE / ORANGE / GREEN / YELLOW -> matching PATO image files
+- SILENTCEATS APK MOD -> silentceats-apk-mod.webp
+- BALA MOD ANDROID -> bala-mod-android.webp
+- ROCKET MOD -> rocket-mod-emblem.webp
+- FLUORITE iOS -> fluorite-ios.webp
+- MIGUL iOS -> migul-ios.webp
+- GBOX & ESIGN -> gbox-esign-optimized.webp
+- iOS EXTERNAL -> ios-external-optimized.webp
+- AIM HACK — NON ROOT iOS -> aim-hack-non-root-ios.webp
+
+The site-wide ABNORMAL brand mark remains part of the header/footer branding.
