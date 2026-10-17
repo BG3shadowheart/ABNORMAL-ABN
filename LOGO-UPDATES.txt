@@ -1,0 +1,12 @@
+ABNORMAL logo and product-art fixes
+===================================
+
+Fixed broken product image references:
+- BR MODS PC now points to /art/products/br-mods-pc.webp.
+- FAKE LAG PC now uses /art/products/fake-lag-pc.webp.
+- ABNORMAL AIMBOT PREMIUM PC now uses /art/products/abnormal-aimbot-premium-pc.webp.
+- STREAMER PC — FULLY HIDDEN PHONE CONTROL now uses /art/products/streamer-pc-fully-hidden-phone-control.webp.
+
+Product logo rendering now uses a cleaner contained layout with reduced padding,
+so transparent logo artwork is larger and more visible inside the product card.
+All mapped product art paths were checked against files in public/.
