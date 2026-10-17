@@ -1,0 +1,33 @@
+{
+  "name": "abnormal-store",
+  "version": "2.0.0",
+  "private": true,
+  "description": "ABNORMAL \u2014 one responsive site for PC, Android and iOS (desktop + phone).",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import ./tests/lib/aliases.mjs --test \"tests/*.test.ts\"",
+    "add-product": "node scripts/add-product.mjs",
+    "build:static": "node scripts/static-build.mjs",
+    "vercel-build": "next build"
+  },
+  "dependencies": {
+    "lenis": "1.3.26",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

@@ -1,0 +1,19 @@
+Vercel deployment notes
+=======================
+
+This is a Next.js App Router project. In GitHub, the repository root must directly contain:
+  package.json
+  package-lock.json
+  next.config.mjs
+  src/app/page.tsx
+  public/
+
+Do not upload the enclosing ABNORMAL-ABN-main directory as a nested folder. Upload its contents.
+
+Vercel settings:
+  Framework Preset: Next.js
+  Root Directory: ./
+  Build Command: npm run vercel-build (or leave the default)
+  Install Command: npm install (or leave the default)
+
+The `vercel-build` script runs `next build`.
