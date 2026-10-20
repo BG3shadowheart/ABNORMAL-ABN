@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/platform-page';
 import { Reveal } from '@/components/reveal';
 import { ContactChecklist, SupportPanel } from '@/components/support-panel';
 import { ArrowIcon, Rule, SectionHeading, ShieldIcon } from '@/components/ui';
+import { SplitText } from '@/components/prestige/split-text';
 import { ORDER_STEPS, PAYMENT_METHODS } from '@/data/store';
 
 export const metadata: Metadata = {
@@ -47,8 +48,8 @@ export default function PaymentsPage() {
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <span className="eyebrow">Payment methods · {PAYMENT_METHODS.length} options</span>
-            <h1 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-semibold leading-[1.06] tracking-tight text-bone-50">
-              Pay, confirm, receive
+            <h1 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-semibold leading-[1.08] tracking-tight text-bone-50">
+              <SplitText text={'Pay, confirm, receive'} playOnMount stagger={85} />
             </h1>
             <p className="mt-5 text-[0.98rem] leading-relaxed text-bone-300">
               Choose the product and duration, send the exact amount, then submit an order with

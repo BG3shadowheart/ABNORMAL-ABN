@@ -12,6 +12,9 @@ import {
 } from '@/data/store';
 import { PLATFORMS } from '@/data/products';
 import { LogoMark } from '@/components/logo';
+import { ArrowIcon, LinkButton } from '@/components/ui';
+import { Magnetic } from '@/components/prestige/magnetic';
+import { Marquee } from '@/components/prestige/marquee';
 import { resolveSupportLink } from '@/lib/links';
 
 const HELP_LINKS = [
@@ -30,6 +33,46 @@ export function SiteFooter() {
   return (
     <footer className="relative mt-24 border-t border-ink-700/70 bg-ink-950/80">
       <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-crimson-600/60 to-transparent" />
+
+      {/* Closing invitation ------------------------------------------------ */}
+      <section className="footer-cta" aria-labelledby="footer-cta-title">
+        <span className="footer-cta__glow" aria-hidden="true" />
+        <div className="shell footer-cta__inner">
+          <div>
+            <span className="eyebrow">Ready when you are</span>
+            <h2 id="footer-cta-title" className="footer-cta__title">
+              Find your next <span className="serif-accent">edge</span>.
+            </h2>
+            <p className="footer-cta__note">
+              {STORE_DESCRIPTION} Every price is fixed, every order is confirmed by a real person.
+            </p>
+          </div>
+          <div className="footer-cta__actions">
+            <Magnetic strength={6}>
+              <LinkButton href={CATALOG_HREF} className="!px-6 !py-3.5">
+                Browse the catalog
+                <ArrowIcon className="h-4 w-4" />
+              </LinkButton>
+            </Magnetic>
+            <LinkButton href="/support" variant="ghost" className="!px-6 !py-3.5">
+              Talk to support
+            </LinkButton>
+          </div>
+        </div>
+      </section>
+
+      <div className="footer-marquee" aria-hidden="true">
+        <Marquee speed={64}>
+          {['ABNORMAL', '異常', 'PREMIUM', 'PC · ANDROID · iOS', 'VERIFIED'].map((word, index) => (
+            <span key={`${word}-${index}`} className="footer-marquee__word">
+              {word}
+            </span>
+          )).flatMap((node, index) => [
+            node,
+            <span key={`dot-${index}`} className="footer-marquee__dot" />,
+          ])}
+        </Marquee>
+      </div>
 
       <div className="shell py-14">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">

@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { NAV_LINKS, CATALOG_HREF, STORE_NAME_KANJI } from '@/data/store';
 import { Logo } from '@/components/logo';
 import { ArrowIcon } from '@/components/ui';
+import { Magnetic } from '@/components/prestige/magnetic';
+import { StoreClock } from '@/components/prestige/clock';
 
 export function SiteHeader({ productCount }: { productCount: number }) {
   const pathname = usePathname();
@@ -37,12 +39,12 @@ export function SiteHeader({ productCount }: { productCount: number }) {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      {/* thin crimson progress hairline */}
+    <header className="fixed inset-x-0 top-0 z-50" data-menu={open ? 'open' : 'closed'}>
+      {/* crimson hairline + the live scroll bar sits right above it */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-crimson-600/70 to-transparent" />
 
       <div
-        className={`transition-all duration-500 ${
+        className={`site-header__bar transition-all duration-500 ${
           scrolled
             ? 'border-b border-ink-700/80 bg-ink-950/85 backdrop-blur-xl shadow-[0_18px_50px_-35px_rgba(0,0,0,1)]'
             : 'border-b border-transparent bg-gradient-to-b from-ink-950/90 to-transparent'
@@ -52,7 +54,7 @@ export function SiteHeader({ productCount }: { productCount: number }) {
           <Link
             href="/"
             aria-label={`${STORE_NAME_KANJI} — home`}
-            className="group flex items-center transition-opacity hover:opacity-90"
+            className="logo-link group flex items-center transition-opacity hover:opacity-100"
           >
             <Logo />
           </Link>
@@ -65,27 +67,28 @@ export function SiteHeader({ productCount }: { productCount: number }) {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
-                  className={`relative rounded-lg px-3.5 py-2 text-[0.82rem] font-semibold tracking-wide transition-colors ${
-                    active ? 'text-bone-50' : 'text-bone-300 hover:text-bone-50'
-                  }`}
+                  className="nav-link"
+                  data-active={active ? 'true' : 'false'}
                 >
-                  {link.label}
-                  <span
-                    className={`absolute inset-x-3 -bottom-0.5 h-px origin-left bg-gradient-to-r from-crimson-500 to-aura-500 transition-transform duration-300 ${
-                      active ? 'scale-x-100' : 'scale-x-0'
-                    }`}
-                  />
+                  <span className="nav-link__dot" aria-hidden="true" />
+                  <span>{link.label}</span>
                 </Link>
               );
             })}
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <span className="chip font-mono">{productCount} products live</span>
-            <Link href={CATALOG_HREF} className="btn btn-primary !px-4 !py-2.5 !text-[0.8rem]">
-              Browse all products
-              <ArrowIcon className="h-4 w-4" />
-            </Link>
+            <StoreClock className="hidden xl:inline-flex" />
+            <span className="chip chip-live font-mono">
+              <span className="chip-live__dot" aria-hidden="true" />
+              {productCount} live
+            </span>
+            <Magnetic strength={5}>
+              <Link href={CATALOG_HREF} className="btn btn-primary btn-browse !px-4 !py-2.5 !text-[0.8rem]">
+                Browse all products
+                <ArrowIcon className="h-4 w-4" />
+              </Link>
+            </Magnetic>
           </div>
 
           <button
@@ -94,7 +97,7 @@ export function SiteHeader({ productCount }: { productCount: number }) {
             aria-expanded={open}
             aria-controls="mobile-navigation"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="btn btn-ghost !px-3 !py-2.5 lg:hidden"
+            className="menu-toggle btn btn-ghost !px-3 !py-2.5 lg:hidden"
           >
             <span className="relative flex h-4 w-5 flex-col justify-between">
               <span
@@ -117,14 +120,9 @@ export function SiteHeader({ productCount }: { productCount: number }) {
         </div>
       </div>
 
-      {/* mobile drawer */}
-      <div
-        id="mobile-navigation"
-        className={`overflow-hidden border-b border-ink-700/70 bg-ink-950/97 backdrop-blur-xl transition-[max-height,opacity] duration-500 lg:hidden ${
-          open ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <nav aria-label="Mobile navigation" className="shell flex flex-col gap-1 py-5">
+      {/* Full-screen mobile menu */}
+      <div id="mobile-navigation" className="mobile-nav lg:hidden" data-open={open ? 'true' : 'false'}>
+        <nav aria-label="Mobile navigation" className="shell flex flex-col gap-1.5 py-8">
           {NAV_LINKS.map((link, index) => {
             const active = isActive(link.href);
             return (
@@ -132,22 +130,32 @@ export function SiteHeader({ productCount }: { productCount: number }) {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? 'page' : undefined}
-                className={`flex items-center justify-between rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${
-                  active
-                    ? 'border-crimson-700/70 bg-crimson-900/30 text-bone-50'
-                    : 'border-ink-700/70 bg-ink-900/60 text-bone-200 hover:border-crimson-700/50 hover:text-white'
-                }`}
-                style={{ transitionDelay: `${index * 20}ms` }}
+                className="mobile-nav__link"
+                data-active={active ? 'true' : 'false'}
+                style={{ transitionDelay: open ? `${90 + index * 55}ms` : '0ms' }}
               >
-                {link.label}
-                <ArrowIcon className="h-4 w-4 opacity-60" />
+                <span className="mobile-nav__index font-mono">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="mobile-nav__label">{link.label}</span>
+                <ArrowIcon className="mobile-nav__arrow h-5 w-5" />
               </Link>
             );
           })}
-          <Link href={CATALOG_HREF} className="btn btn-primary mt-3">
-            Browse all products
+
+          <Link
+            href={CATALOG_HREF}
+            className="btn btn-primary mt-6 !py-4"
+            style={{ transitionDelay: open ? '440ms' : '0ms' }}
+          >
+            Browse all {productCount} products
             <ArrowIcon className="h-4 w-4" />
           </Link>
+
+          <div className="mobile-nav__foot">
+            <StoreClock />
+            <span className="font-mono">{STORE_NAME_KANJI} · ABNORMAL</span>
+          </div>
         </nav>
       </div>
     </header>

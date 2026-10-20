@@ -6,6 +6,8 @@ import { Breadcrumbs } from '@/components/platform-page';
 import { Reveal } from '@/components/reveal';
 import { ContactChecklist, SupportPanel } from '@/components/support-panel';
 import { ArrowIcon, LinkButton, Rule, SectionHeading } from '@/components/ui';
+import { SplitText } from '@/components/prestige/split-text';
+import { StoreClock } from '@/components/prestige/clock';
 import { ORDER_STEPS } from '@/data/store';
 import { PLATFORMS } from '@/data/products';
 
@@ -38,8 +40,8 @@ export default function SupportPage() {
 
         <div className="mt-8 max-w-3xl">
           <span className="eyebrow">Support centre</span>
-          <h1 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-semibold leading-[1.06] tracking-tight text-bone-50">
-            Talk to a human before you pay
+          <h1 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-semibold leading-[1.08] tracking-tight text-bone-50">
+            <SplitText text={'Talk to a human\nbefore you pay'} playOnMount stagger={70} />
           </h1>
           <p className="mt-5 text-[0.98rem] leading-relaxed text-bone-300">
             We confirm the product, the duration, the exact price and the payment with you first.
@@ -54,6 +56,7 @@ export default function SupportPage() {
             <LinkButton href="/products" variant="ghost" className="!py-2.5">
               Browse the catalog
             </LinkButton>
+            <StoreClock className="!py-2.5" />
           </div>
         </div>
       </section>
