@@ -4,17 +4,26 @@ import path from 'node:path';
 import Link from 'next/link';
 import {
   CATALOG_HREF,
+  FEATURED_LIMIT,
   STORE_DESCRIPTION,
   STORE_NAME,
   STORE_NAME_KANJI,
 } from '@/data/store';
-import { getAllProducts, getCatalogStats } from '@/lib/catalog';
-import { formatBdt, formatUsd } from '@/lib/format';
+import { PLATFORM_LABEL } from '@/data/products';
+import {
+  getAllProducts,
+  getCatalogStats,
+  getFeaturedProducts,
+  getStartingPrice,
+} from '@/lib/catalog';
+import { formatBdt, formatPriceOption, formatUsd } from '@/lib/format';
 import { ArrowIcon, LinkButton } from '@/components/ui';
 import { HeroSpotlight } from '@/components/prestige/pointer';
 import { CountUp } from '@/components/prestige/count-up';
 import { Magnetic } from '@/components/prestige/magnetic';
 import { Marquee } from '@/components/prestige/marquee';
+import { FeaturedDrop, type DropItem } from '@/components/prestige/featured-drop';
+import { getProductImages } from '@/components/product-visual';
 
 /** Drop public/art/hero.jpg (or .png/.webp/.avif) in and it replaces the generated hero art. */
 function findHeroImage(): string | null {
@@ -29,6 +38,19 @@ export function Hero() {
   const stats = getCatalogStats();
   const products = getAllProducts();
   const rail = products.slice(0, 12);
+  const featured = getFeaturedProducts(FEATURED_LIMIT);
+  const dropItems: DropItem[] = featured.map((product) => {
+    const starting = getStartingPrice(product);
+    return {
+      slug: product.slug,
+      name: product.name,
+      platform: PLATFORM_LABEL[product.platform],
+      summary: product.summary,
+      price: starting ? formatPriceOption(starting) : 'Ask support',
+      from: starting ? `From · ${starting.duration}` : 'Price',
+      image: getProductImages(product)[0]?.src ?? null,
+    };
+  });
 
   return (
     <section data-home className="home-hero relative isolate h-[100svh] overflow-hidden">
@@ -149,10 +171,15 @@ export function Hero() {
       {/* Full-bleed ticker along the bottom edge of the screen. */}
       <div className="hero-rail">
         <div className="shell hero-rail__inner">
-          <span className="hero-rail__label">
-            <i aria-hidden="true" />
-            Index
-          </span>
+          <button type="button" className="hero-rail__drop" data-drop-trigger aria-haspopup="dialog">
+            <span className="hero-rail__drop-icon" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            <span>Featured drop</span>
+            <span className="hero-rail__drop-count font-mono">{String(dropItems.length).padStart(2, '0')}</span>
+          </button>
           <Marquee speed={58} className="hero-rail__marquee">
             {rail.map((product) => (
               <Link key={product.slug} href={`/products/${product.slug}`} className="hero-rail__item">
@@ -169,6 +196,31 @@ export function Hero() {
           </Link>
         </div>
       </div>
+
+      {/* Phone / tablet: a peek strip along the bottom edge opens the same shelf. */}
+      <button type="button" className="hero-peek" data-drop-trigger aria-haspopup="dialog">
+        <span className="hero-peek__label">
+          <span className="hero-peek__dot" aria-hidden="true" />
+          Featured drop
+          <span className="font-mono">{String(dropItems.length).padStart(2, '0')}</span>
+        </span>
+        <span className="hero-peek__art" aria-hidden="true">
+          {dropItems.slice(0, 3).map((item) =>
+            item.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={item.slug} src={item.image} alt="" loading="lazy" decoding="async" />
+            ) : null,
+          )}
+        </span>
+        <span className="hero-peek__open" aria-hidden="true">
+          Open
+          <svg viewBox="0 0 20 20">
+            <path d="M10 15V5m0 0-4.2 4.2M10 5l4.2 4.2" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </button>
+
+      <FeaturedDrop items={dropItems} />
     </section>
   );
 }

@@ -68,6 +68,19 @@ off for `prefers-reduced-motion`, touch screens and no-JS visitors:
 The new visual layer itself is appended to `src/app/globals.css` under
 `PRESTIGE LAYER`; the original tokens, panels and themes above it are untouched.
 
+### Second wave
+
+| Feature | Where | Notes |
+| --- | --- | --- |
+| Exhibition-style product gallery | `prestige/product-gallery.tsx` | Lit frame, pointer sheen, corner brackets, thumbnails (only for products with more than one real image) and a full-screen viewer (Esc, ← →, focus returns to the frame) |
+| Featured drop shelf | `prestige/featured-drop.tsx` | Pulls up from the bottom edge on the home screen. Opens from the desktop rail button or the phone peek strip; wheel, drag, ← →, snap scrolling and a progress hairline |
+| CRT atmosphere | `prestige/scanlines.tsx` | PC catalogue only: scanline sheet, slow beam and a pooled pointer comet |
+| Shared scroll lock | `prestige/scroll-lock.ts` | Locks the page *and* pauses Lenis, so overlays cannot be scrolled past |
+
+To give a product a second gallery image, set both `logo` and `image` on its
+entry in `src/data/products.ts`; a single real file is never duplicated into a
+fake gallery.
+
 ## Run it
 
 Needs Node.js 20.9 or newer.
