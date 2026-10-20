@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { ProductVisual } from '@/components/product-visual';
+import { ProductVisual, getProductImages } from '@/components/product-visual';
+import { ProductGallery } from '@/components/prestige/product-gallery';
 import { PaymentCards, PaymentSafetyNote } from '@/components/payment-cards';
 import { Breadcrumbs } from '@/components/platform-page';
 import { PriceList } from '@/components/price-list';
@@ -118,15 +119,20 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.02fr_0.98fr]">
           {/* artwork + facts */}
           <div className="flex flex-col gap-6">
-            <div className="panel art-frame group relative aspect-4/3 w-full overflow-hidden">
-              <ProductVisual product={product} priority context="detail" />
-              <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                <PlatformBadge platform={product.platform} />
-                {(product.tags ?? []).map((tag) => (
-                  <Chip key={tag}>{tag}</Chip>
-                ))}
-              </div>
-            </div>
+            <ProductGallery
+              images={getProductImages(product)}
+              name={product.name}
+              label={`${PLATFORM_LABEL[product.platform]} build`.toUpperCase()}
+              badges={
+                <>
+                  <PlatformBadge platform={product.platform} />
+                  {(product.tags ?? []).map((tag) => (
+                    <Chip key={tag}>{tag}</Chip>
+                  ))}
+                </>
+              }
+              first={<ProductVisual product={product} priority context="detail" />}
+            />
 
             <div className="panel p-6">
               <h2 className="font-display text-base tracking-wide text-bone-50">

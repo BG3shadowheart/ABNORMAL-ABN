@@ -8,7 +8,7 @@ import { ProductArtwork } from '@/components/artwork';
  * Every other built-in product uses its own matching file, preventing a shared
  * ABN fallback or one product's logo from leaking onto another product.
  */
-type MatchedArtwork = {
+export type MatchedArtwork = {
   src: string;
   alt: string;
   kind?: 'logo' | 'artwork';
@@ -98,6 +98,35 @@ const MATCHED_PRODUCT_ARTWORK: Record<string, MatchedArtwork> = {
     alt: 'Aim Hack non-root iOS logo',
   },
 };
+
+/**
+ * Every real image asset a product has, in display order. Used by the product
+ * gallery (thumbnails + full-screen view) so it never invents artwork that the
+ * owner did not provide.
+ */
+export function getProductImages(product: Product): MatchedArtwork[] {
+  const out: MatchedArtwork[] = [];
+
+  const push = (image: MatchedArtwork | undefined) => {
+    // The same file can be referenced twice (logo + artwork); show it once.
+    if (image && !out.some((existing) => existing.src === image.src)) out.push(image);
+  };
+
+  if (isDripProduct(product)) {
+    if (product.logo) push({ src: product.logo, alt: `${product.name} logo` });
+    if (product.image) {
+      push({ src: product.image, alt: product.imageAlt ?? `${product.name} artwork`, kind: 'artwork' });
+    }
+    return out;
+  }
+
+  const matched = MATCHED_PRODUCT_ARTWORK[product.slug];
+  if (matched) push(matched);
+  else if (product.image) {
+    push({ src: product.image, alt: product.imageAlt ?? `${product.name} artwork`, kind: 'artwork' });
+  }
+  return out;
+}
 
 export function isDripProduct(product: Pick<Product, 'slug' | 'name'>): boolean {
   return product.slug.startsWith('drip-') || product.name.trim().toUpperCase().startsWith('DRIP ');
