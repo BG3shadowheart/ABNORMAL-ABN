@@ -3,6 +3,10 @@ import localFont from 'next/font/local';
 import './globals.css';
 
 import { Atmosphere } from '@/components/atmosphere';
+import { SiteIntro } from '@/components/prestige/site-intro';
+import { PointerLayer } from '@/components/prestige/pointer';
+import { ScrollHud } from '@/components/prestige/scroll-hud';
+import { RouteEntrance } from '@/components/prestige/route-entrance';
 import { OrderContextProvider } from '@/components/order-context';
 import { CharacterStage } from '@/components/character-stage';
 import { THEME_BOOT_SCRIPT } from '@/lib/themes';
@@ -17,16 +21,27 @@ import { STORE_DESCRIPTION, STORE_NAME, STORE_TAGLINE, STORE_URL } from '@/data/
 // Self-hosted fonts: no request to Google at build or run time, so builds never
 // fail offline and the first paint is faster.
 const display = localFont({
-  src: '../fonts/fredoka.woff2',
-  weight: '300 700',
-  variable: '--font-fredoka',
+  src: '../fonts/sora-latin-wght-normal.woff2',
+  weight: '100 800',
+  variable: '--font-sora',
   display: 'swap',
+  preload: true,
 });
 
 const sans = localFont({
-  src: '../fonts/nunito.woff2',
-  weight: '200 1000',
-  variable: '--font-nunito',
+  src: '../fonts/manrope-latin-wght-normal.woff2',
+  weight: '200 800',
+  variable: '--font-manrope',
+  display: 'swap',
+  preload: true,
+});
+
+const serif = localFont({
+  src: [
+    { path: '../fonts/instrument-serif-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/instrument-serif-latin-400-italic.woff2', weight: '400', style: 'italic' },
+  ],
+  variable: '--font-instrument',
   display: 'swap',
 });
 
@@ -74,6 +89,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+/**
+ * Runs before the first paint. It marks the document as JavaScript-enabled (so
+ * reveal effects never hide content when JS is off) and shows the first-visit
+ * curtain only for visitors who have not seen it this session.
+ */
+const INTRO_BOOT_SCRIPT = `(function(){var d=document.documentElement;d.classList.add('js');
+try{if(!sessionStorage.getItem('abn-intro-seen'))d.dataset.intro='1';}catch(e){}})();`;
+
 export const viewport: Viewport = {
   themeColor: '#04040a',
   colorScheme: 'dark',
@@ -84,14 +107,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       data-theme="dendro"
-      className={`${display.variable} ${sans.variable} ${mono.variable}`}
+      className={`${display.variable} ${sans.variable} ${mono.variable} ${serif.variable}`}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
       </head>
       <body className="min-h-screen bg-ink-950 text-bone-200 antialiased">
         <Atmosphere />
+        <SiteIntro />
+        <PointerLayer />
+        <ScrollHud />
         <ThemeController />
         <SmoothScroll />
         <CharacterStage local={findLocalCharacters()} />
@@ -106,7 +133,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader productCount={PRODUCTS.length} />
 
         <OrderContextProvider>
-          <main id="main">{children}</main>
+          <main id="main">
+            <RouteEntrance>{children}</RouteEntrance>
+          </main>
         </OrderContextProvider>
 
         <SiteFooter />

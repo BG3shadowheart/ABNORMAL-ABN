@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+next-env.d.ts.tmp
+
+# typescript incremental cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# logs / OS noise
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+*.pem
+
+# local env
+.env
+.env*.local
+
+# vercel
+.vercel

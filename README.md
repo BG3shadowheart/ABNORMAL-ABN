@@ -37,6 +37,37 @@ touch scrolling, and "reduce motion" users get plain native scrolling too.
 - character art is cached for a year (`next.config.mjs`)
 - phone version keeps its lighter rules (fewer particles, no ring animation)
 
+## Design system (2026 refresh)
+
+The store now uses a sharper, more editorial identity while keeping every price,
+product and page exactly where it was.
+
+**Type** — Sora (display) + Manrope (text) + Instrument Serif (italic accents),
+all self-hosted in `src/fonts`. Two tiny glyph subsets (`public/fonts/kanji.woff2`,
+`taka.woff2`) guarantee `異常` and `৳` render everywhere. Fonts are wired up in
+`src/app/layout.tsx`; change the `@theme` tokens in `src/app/globals.css` to
+re-skin the whole site.
+
+**Motion** — every effect lives in `src/components/prestige/` and switches itself
+off for `prefers-reduced-motion`, touch screens and no-JS visitors:
+
+| File | What it does |
+| --- | --- |
+| `site-intro.tsx` | First-visit curtain (once per browser session; replay with `?intro=1`) |
+| `pointer.tsx` | Custom crimson pointer + hero spotlight that follows the mouse |
+| `scroll-hud.tsx` | Scroll progress hairline + back-to-top ring |
+| `split-text.tsx` | Word-by-word masked headline reveal |
+| `tilt.tsx` | 3D product cards with specular glare and an orbiting border |
+| `magnetic.tsx` | Buttons that lean towards the pointer |
+| `parallax.tsx` | Soft scroll drift for decorative blocks |
+| `marquee.tsx` | Seamless infinite tickers (hero index, footer wordmark) |
+| `count-up.tsx` | Hero stats that count up once |
+| `clock.tsx` | Live Bangladesh-time chip in the header |
+| `route-entrance.tsx` | A short fade-lift on every page change |
+
+The new visual layer itself is appended to `src/app/globals.css` under
+`PRESTIGE LAYER`; the original tokens, panels and themes above it are untouched.
+
 ## Run it
 
 Needs Node.js 20.9 or newer.

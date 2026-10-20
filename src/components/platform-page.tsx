@@ -6,6 +6,8 @@ import { durationHours, formatBdt, formatUsd } from '@/lib/format';
 import { CatalogExplorer } from '@/components/catalog-explorer';
 import { Reveal } from '@/components/reveal';
 import { ArrowIcon, Chip, LinkButton, Rule, SectionHeading, Stat } from '@/components/ui';
+import { SplitText } from '@/components/prestige/split-text';
+import { Marquee } from '@/components/prestige/marquee';
 
 export function Breadcrumbs({
   items,
@@ -66,7 +68,7 @@ export function PlatformPageView({ platform }: { platform: Platform }) {
                 Platform · {products.length} product{products.length === 1 ? '' : 's'}
               </span>
               <h1 className="mt-5 font-display text-[clamp(2.2rem,5.5vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-bone-50">
-                {meta.label} catalog
+                <SplitText text={`${meta.label} catalog`} playOnMount stagger={80} />
               </h1>
               <p className="mt-5 max-w-2xl text-[0.98rem] leading-relaxed text-bone-300">
                 {meta.intro}
@@ -107,6 +109,21 @@ export function PlatformPageView({ platform }: { platform: Platform }) {
           </div>
         </div>
       </section>
+
+      {/* A thin media band: the platform's own durations, running continuously. */}
+      <div className="platform-strip">
+        <Marquee speed={46}>
+          {Array.from({ length: 3 }).flatMap((_, copy) =>
+            durationLabels.map((label, index) => (
+              <span key={`${copy}-${label}-${index}`} className="platform-strip__item">
+                <span className="platform-strip__glyph serif-accent">{meta.kanji}</span>
+                <span className="platform-strip__value font-mono">{label}</span>
+                <span className="platform-strip__sep" aria-hidden="true" />
+              </span>
+            )),
+          )}
+        </Marquee>
+      </div>
 
       {/* ---------------------------------------------------------------- */}
       {/* Products                                                          */}

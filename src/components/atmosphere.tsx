@@ -60,6 +60,9 @@ export function Atmosphere() {
         </div>
       ))}
 
+      {/* a whisper of film grain: gives the flat gradients a printed texture */}
+      <div className="bg-noise grain-layer" />
+
       <div className="absolute inset-x-0 top-0 z-[4] h-40 bg-gradient-to-b from-ink-950/80 to-transparent" />
     </div>
   );

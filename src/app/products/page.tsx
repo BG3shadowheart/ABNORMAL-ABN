@@ -6,6 +6,7 @@ import { PaymentCards, PaymentSafetyNote } from '@/components/payment-cards';
 import { Reveal } from '@/components/reveal';
 import { ContactChecklist, SupportPanel } from '@/components/support-panel';
 import { ArrowIcon, LinkButton, Rule, SectionHeading } from '@/components/ui';
+import { SplitText } from '@/components/prestige/split-text';
 import { PLATFORMS } from '@/data/products';
 import { getAllProducts } from '@/lib/catalog';
 
@@ -26,8 +27,8 @@ export default function ProductsPage() {
 
         <div className="mt-8 max-w-3xl">
           <span className="eyebrow">Complete catalog · {products.length} products</span>
-          <h1 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-semibold leading-[1.06] tracking-tight text-bone-50">
-            Everything we sell, in one place
+          <h1 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-semibold leading-[1.08] tracking-tight text-bone-50">
+            <SplitText text={'Everything we sell,\nin one place'} playOnMount stagger={70} />
           </h1>
           <p className="mt-5 text-[0.98rem] leading-relaxed text-bone-300">
             Search by name, filter by platform, narrow by duration and sort by price. Every card
