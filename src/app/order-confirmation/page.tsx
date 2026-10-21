@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function OrderConfirmationPage() {
-  return <section className="shell pb-24 pt-32 sm:pt-36"><OrderConfirmationClient /></section>;
+  return <section className="shell page-top pb-24"><OrderConfirmationClient /></section>;
 }

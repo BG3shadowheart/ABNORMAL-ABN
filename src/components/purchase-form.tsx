@@ -31,15 +31,15 @@ export function PurchaseForm({ product }: { product: Product }) {
     setFormError('');
 
     if (!price) {
-      setFormError('This product has no configured duration. Please contact support.');
+      setFormError('This product has no plans set up yet. Please message us.');
       return;
     }
     if (!transactionId.trim()) {
-      setFormError('Enter the transaction ID/number shown on your payment receipt.');
+      setFormError('Please enter the transaction ID from your payment receipt.');
       return;
     }
     if (needsSenderNumber && !/^[+\d][\d\s-]{6,20}$/.test(senderNumber.trim())) {
-      setFormError('Enter the phone number you sent the payment from (include the country code if needed).');
+      setFormError('Please enter the phone number you paid from (with the country code if needed).');
       return;
     }
 
@@ -60,7 +60,7 @@ export function PurchaseForm({ product }: { product: Product }) {
       });
       router.push('/order-confirmation');
     } catch {
-      setFormError('Could not prepare the order summary. Please try again.');
+      setFormError('Something went wrong preparing your summary. Please try again.');
       setBusy(false);
     }
   };
@@ -68,15 +68,15 @@ export function PurchaseForm({ product }: { product: Product }) {
   return (
     <div className="panel overflow-hidden">
       <div className="border-b border-ink-700/70 bg-ink-900/45 p-5 sm:p-6">
-        <span className="eyebrow">Manual payment · no account required</span>
+        <span className="eyebrow">No account needed</span>
         <h3 className="mt-2 font-display text-2xl text-bone-50">Place your order</h3>
         <p className="mt-2 text-sm leading-relaxed text-bone-400">
-          Choose your duration, pay to the account below, then enter your payment reference. No login is needed. The website does not upload or save your payment details; it only prepares a copyable summary for support.
+          Pick a plan, pay to the account below, then enter your transaction details. This site does not save or send anything. It just prepares a summary you can copy and send to us.
         </p>
       </div>
       <div className="space-y-5 p-5 sm:p-6">
         <div>
-          <label htmlFor={`duration-${product.slug}`} className="field-label">Choose duration</label>
+          <label htmlFor={`duration-${product.slug}`} className="field-label">Plan</label>
           <select id={`duration-${product.slug}`} value={duration} onChange={(event) => setDuration(event.target.value)} className="field mt-2 w-full" required>
             {product.prices.map((item) => (
               <option key={item.duration} value={item.duration}>{item.duration} — {formatPriceOption(item)}</option>
@@ -130,7 +130,7 @@ export function PurchaseForm({ product }: { product: Product }) {
 
         {formError ? <p role="alert" className="rounded-xl border border-crimson-700/70 bg-crimson-950/50 p-3 text-sm leading-relaxed text-crimson-200">{formError}</p> : null}
 
-        <button type="button" onClick={placeOrder} disabled={busy} className="btn btn-primary w-full justify-center">{busy ? 'Preparing summary…' : 'Place order & continue'}</button>
+        <button type="button" onClick={placeOrder} disabled={busy} className="btn btn-primary w-full justify-center">{busy ? 'One moment…' : 'Continue'}</button>
         <p className="text-xs leading-relaxed text-bone-500">After you continue, copy the summary on the next screen. Message us on WhatsApp, Telegram or Discord; paste the summary and attach your payment screenshot. Your details are not automatically sent to support. Delivery happens only after staff verification.</p>
       </div>
     </div>

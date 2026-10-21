@@ -1,13 +1,10 @@
 import Link from 'next/link';
 import type { Platform } from '@/data/products';
 import { PLATFORMS } from '@/data/products';
-import { getPlatformMeta, getProductsByPlatform, getStartingPrice } from '@/lib/catalog';
-import { durationHours, formatBdt, formatUsd } from '@/lib/format';
+import { getPlatformMeta, getProductsByPlatform, getStartingPrice, hasLifetimeOption } from '@/lib/catalog';
+import { formatBdt, formatUsd } from '@/lib/format';
 import { CatalogExplorer } from '@/components/catalog-explorer';
-import { Reveal } from '@/components/reveal';
-import { ArrowIcon, Chip, LinkButton, Rule, SectionHeading, Stat } from '@/components/ui';
-import { SplitText } from '@/components/prestige/split-text';
-import { Marquee } from '@/components/prestige/marquee';
+import { ArrowIcon } from '@/components/ui';
 
 export function Breadcrumbs({
   items,
@@ -15,12 +12,12 @@ export function Breadcrumbs({
   items: { label: string; href?: string }[];
 }) {
   return (
-    <nav aria-label="Breadcrumb" className="text-xs text-bone-500">
+    <nav aria-label="Breadcrumb" className="text-sm text-bone-500">
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, index) => (
           <li key={`${item.label}-${index}`} className="flex items-center gap-2">
             {item.href ? (
-              <Link href={item.href} className="transition-colors hover:text-crimson-300">
+              <Link href={item.href} className="transition-colors hover:text-bone-100">
                 {item.label}
               </Link>
             ) : (
@@ -38,130 +35,54 @@ export function PlatformPageView({ platform }: { platform: Platform }) {
   const meta = getPlatformMeta(platform);
   const products = getProductsByPlatform(platform);
   const otherPlatforms = PLATFORMS.filter((item) => item.id !== platform);
-
-  const durationLabels = Array.from(
-    new Set(products.flatMap((product) => product.prices.map((price) => price.duration))),
-  ).sort((a, b) => durationHours(a) - durationHours(b));
+  const lifetimeCount = products.filter(hasLifetimeOption).length;
 
   const cheapest = products
     .map((product) => getStartingPrice(product))
     .filter((value): value is NonNullable<typeof value> => value !== null)
     .sort((a, b) => (a.usd ?? Infinity) - (b.usd ?? Infinity))[0];
 
-  const lifetimeCount = products.filter((product) =>
-    product.prices.some((price) => !Number.isFinite(durationHours(price.duration))),
-  ).length;
+  const lowest =
+    cheapest?.usd !== undefined
+      ? formatUsd(cheapest.usd)
+      : cheapest?.bdt !== undefined
+        ? formatBdt(cheapest.bdt)
+        : null;
 
   return (
-    <div>
+    <>
+      <section className="shell page-top">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: meta.label }]} />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Platform hero                                                     */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="relative pb-16 pt-32 sm:pt-36">
-        <div className="shell relative z-[1]">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: meta.label }]} />
-
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <div>
-              <span className="eyebrow">
-                Platform · {products.length} product{products.length === 1 ? '' : 's'}
-              </span>
-              <h1 className="mt-5 font-display text-[clamp(2.2rem,5.5vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-bone-50">
-                <SplitText text={`${meta.label} catalog`} playOnMount stagger={80} />
-              </h1>
-              <p className="mt-5 max-w-2xl text-[0.98rem] leading-relaxed text-bone-300">
-                {meta.intro}
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-1.5">
-                {durationLabels.map((label) => (
-                  <Chip key={label}>{label}</Chip>
-                ))}
-              </div>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <LinkButton href="#catalog" className="!px-6 !py-3">
-                  Jump to products
-                  <ArrowIcon className="h-4 w-4" />
-                </LinkButton>
-                <LinkButton href="/payments" variant="ghost" className="!px-6 !py-3">
-                  Payment methods
-                </LinkButton>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
-              <Stat value={String(products.length)} label="Products" />
-              <Stat value={String(durationLabels.length)} label="Durations" />
-              <Stat value={String(lifetimeCount)} label="Lifetime options" />
-              <Stat
-                value={
-                  cheapest?.usd !== undefined
-                    ? formatUsd(cheapest.usd)
-                    : cheapest?.bdt !== undefined
-                      ? formatBdt(cheapest.bdt)
-                      : '—'
-                }
-                label="Lowest listed"
-              />
-            </div>
-          </div>
-        </div>
+        <h1 className="mt-6 font-display text-[clamp(2rem,5vw,3rem)] font-semibold leading-tight text-bone-50">
+          {meta.label} products
+        </h1>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-bone-300">{meta.intro}</p>
+        <p className="mt-4 text-sm text-bone-400">
+          {products.length} {products.length === 1 ? 'product' : 'products'}
+          {lowest ? ` · from ${lowest}` : ''}
+          {lifetimeCount > 0 ? ` · ${lifetimeCount} with a lifetime option` : ''}
+        </p>
       </section>
 
-      {/* A thin media band: the platform's own durations, running continuously. */}
-      <div className="platform-strip">
-        <Marquee speed={46}>
-          {Array.from({ length: 3 }).flatMap((_, copy) =>
-            durationLabels.map((label, index) => (
-              <span key={`${copy}-${label}-${index}`} className="platform-strip__item">
-                <span className="platform-strip__glyph serif-accent">{meta.kanji}</span>
-                <span className="platform-strip__value font-mono">{label}</span>
-                <span className="platform-strip__sep" aria-hidden="true" />
-              </span>
-            )),
-          )}
-        </Marquee>
-      </div>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Products                                                          */}
-      {/* ---------------------------------------------------------------- */}
-      <section id="catalog" className="shell scroll-mt-28 pb-20">
+      <section id="catalog" className="shell scroll-mt-24 pb-16">
         <CatalogExplorer products={products} showPlatformFilter={false} />
       </section>
 
-      <Rule className="shell" />
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Other platforms                                                   */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="shell py-16">
-        <SectionHeading
-          eyebrow="Keep browsing"
-          title="Looking for another platform?"
-          description="Every platform has its own entries, its own durations and its own prices."
-        />
-        <div className="mt-8 grid gap-5 sm:grid-cols-2">
+      <section className="shell pb-16">
+        <h2 className="font-display text-xl text-bone-50">Looking for something else?</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {otherPlatforms.map((item) => (
-            <Reveal key={item.id}>
-              <Link
-                href={item.href}
-                className="panel lift group flex items-center justify-between gap-4 p-6"
-              >
-                <span>
-                  <span className="block font-display text-lg tracking-wide text-bone-50">
-                    {item.label}
-                  </span>
-                  <span className="mt-1 block text-sm text-bone-400">{item.blurb}</span>
-                </span>
-                <ArrowIcon className="h-5 w-5 shrink-0 text-bone-500 transition-all group-hover:translate-x-1 group-hover:text-crimson-300" />
-              </Link>
-            </Reveal>
+            <Link key={item.id} href={item.href} className="panel group flex items-center justify-between gap-4 p-5 transition-colors hover:border-crimson-500">
+              <span>
+                <span className="block font-display text-lg text-bone-50">{item.label}</span>
+                <span className="mt-1 block text-sm text-bone-400">{item.blurb}</span>
+              </span>
+              <ArrowIcon className="h-5 w-5 shrink-0 text-bone-500 transition-transform group-hover:translate-x-1 group-hover:text-crimson-300" />
+            </Link>
           ))}
         </div>
       </section>
-    </div>
+    </>
   );
 }

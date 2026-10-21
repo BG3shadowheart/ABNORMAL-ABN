@@ -86,7 +86,7 @@ const PC_PRODUCTS: Product[] = [
     slug: 'br-mods-pc',
     name: 'BR MODS PC',
     platform: 'pc',
-    summary: 'Windows PC build with 1 day, 10 day and 1 month access.',
+    summary: 'For Windows PC. Try it for a day, or go up to a month.',
     compatibility: 'Windows PC',
     prices: [
       { duration: '1 Day', usd: 2, bdt: 250 },
@@ -100,7 +100,7 @@ const PC_PRODUCTS: Product[] = [
     slug: 'fake-lag-pc',
     name: 'FAKE LAG PC',
     platform: 'pc',
-    summary: 'Windows PC build with 1 month or lifetime access.',
+    summary: 'For Windows PC. Pay monthly, or once for lifetime.',
     compatibility: 'Windows PC',
     prices: [
       { duration: '1 Month', usd: 3, bdt: 350 },
@@ -112,7 +112,7 @@ const PC_PRODUCTS: Product[] = [
     slug: 'br-fake-lag-pc-bundle',
     name: 'BR + FAKE LAG PC BUNDLE',
     platform: 'pc',
-    summary: 'Windows PC bundle: BR MODS PC together with FAKE LAG PC, 1 month access.',
+    summary: 'BR MODS PC and FAKE LAG PC together, for one month.',
     compatibility: 'Windows PC',
     details: ['Bundle of BR MODS PC and FAKE LAG PC', '1 month access'],
     prices: [{ duration: '1 Month', usd: 5 }],
@@ -122,7 +122,7 @@ const PC_PRODUCTS: Product[] = [
     slug: 'abnormal-aimbot-premium-pc',
     name: 'ABNORMAL AIMBOT PREMIUM PC',
     platform: 'pc',
-    summary: 'Windows PC premium build with 1 month or lifetime access.',
+    summary: 'Premium build for Windows PC. Monthly or lifetime.',
     compatibility: 'Windows PC',
     prices: [
       { duration: '1 Month', usd: 3, bdt: 350 },
@@ -134,7 +134,7 @@ const PC_PRODUCTS: Product[] = [
     slug: 'streamer-pc-fully-hidden-phone-control',
     name: 'STREAMER PC — FULLY HIDDEN PHONE CONTROL',
     platform: 'pc',
-    summary: 'Windows PC streamer build with hidden phone control, 1 month or lifetime access.',
+    summary: 'For Windows PC, controlled from your phone. Monthly or lifetime.',
     compatibility: 'Windows PC',
     details: ['Controlled from your phone', '1 month or lifetime access'],
     prices: [
@@ -155,7 +155,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'br-mods-android',
     name: 'BR MODS ANDROID',
     platform: 'android',
-    summary: 'Android build with 1 day, 10 day and 1 month access.',
+    summary: 'For Android. Plans from 1 day to 1 month.',
     compatibility: 'Android',
     prices: [
       { duration: '1 Day', usd: 2, bdt: 250 },
@@ -170,7 +170,7 @@ const ANDROID_PRODUCTS: Product[] = [
     logo: '/art/products/drip-apk-mod.webp',
     name: 'DRIP APK MOD',
     platform: 'android',
-    summary: 'Android APK mod with 1 day up to 30 day access.',
+    summary: 'APK mod for Android. Plans from 1 to 30 days.',
     compatibility: 'Android',
     prices: [
       { duration: '1 Day', usd: 0.5, bdt: 60 },
@@ -187,7 +187,7 @@ const ANDROID_PRODUCTS: Product[] = [
     logo: '/art/products/drip-proxy.webp',
     name: 'DRIP PROXY',
     platform: 'android',
-    summary: 'Android proxy tool with 1 day up to 30 day access.',
+    summary: 'Proxy tool for Android. Plans from 1 to 30 days.',
     compatibility: 'Android',
     prices: [
       { duration: '1 Day', usd: 0.5, bdt: 59 },
@@ -201,7 +201,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'prime-apk-mod',
     name: 'PRIME APK MOD',
     platform: 'android',
-    summary: 'Android APK mod with 1 day up to 30 day access.',
+    summary: 'APK mod for Android. Plans from 1 to 30 days.',
     compatibility: 'Android',
     prices: [
       { duration: '1 Day', usd: 0.4, bdt: 50 },
@@ -216,7 +216,7 @@ const ANDROID_PRODUCTS: Product[] = [
     logo: '/art/products/drip-r00t-android.webp',
     name: 'DRIP R00T ANDROID',
     platform: 'android',
-    summary: 'Android rooted build with 1 day up to 30 day access.',
+    summary: 'For rooted Android phones. Plans from 1 to 30 days.',
     compatibility: 'Rooted Android',
     prices: [
       { duration: '1 Day', usd: 0.5, bdt: 59 },
@@ -230,7 +230,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'aim-hack-non-root-android',
     name: 'AIM HACK — NON ROOT ANDROID',
     platform: 'android',
-    summary: 'Android aim hack for non-root devices, 1 day up to 30 day access.',
+    summary: 'Aim hack for Android, no root needed. Plans from 1 to 30 days.',
     compatibility: 'Non-root Android',
     prices: [
       { duration: '1 Day', usd: 1.3, bdt: 150 },
@@ -245,7 +245,7 @@ const ANDROID_PRODUCTS: Product[] = [
     logo: '/art/products/drip-wire-non-root-android.webp',
     name: 'DRIP WIRE — NON ROOT ANDROID',
     platform: 'android',
-    summary: 'Android non-root build with 1 day up to 30 day access.',
+    summary: 'For Android, no root needed. Plans from 1 to 30 days.',
     compatibility: 'Non-root Android',
     prices: [
       { duration: '1 Day', usd: 1.3, bdt: 150 },
@@ -259,7 +259,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'pato-blue-apk-mod',
     name: 'PATO BLUE APK MOD',
     platform: 'android',
-    summary: 'Android APK mod (Blue) with 3, 15 and 30 day access.',
+    summary: 'The blue PATO APK mod. Choose 3, 15 or 30 days.',
     compatibility: 'Android',
     prices: [
       { duration: '3 Days', usd: 1.7, bdt: 200 },
@@ -272,7 +272,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'pato-orange-apk-mod',
     name: 'PATO ORANGE APK MOD',
     platform: 'android',
-    summary: 'Android APK mod (Orange) with 3 and 7 day access.',
+    summary: 'The orange PATO APK mod. Choose 3 or 7 days.',
     compatibility: 'Android',
     prices: [
       { duration: '3 Days', usd: 3, bdt: 400 },
@@ -284,7 +284,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'pato-green-apk-mod',
     name: 'PATO GREEN APK MOD',
     platform: 'android',
-    summary: 'Android APK mod (Green) with 3 day up to 30 day access.',
+    summary: 'The green PATO APK mod. Plans from 3 to 30 days.',
     compatibility: 'Android',
     prices: [
       { duration: '3 Days', usd: 1, bdt: 260 },
@@ -298,7 +298,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'pato-yellow',
     name: 'PATO YELLOW',
     platform: 'android',
-    summary: 'Android build (Yellow) with 3 and 7 day access. Priced in BDT.',
+    summary: 'The yellow PATO for Android. Choose 3 or 7 days, priced in BDT.',
     compatibility: 'Android',
     prices: [
       { duration: '3 Days', bdt: 200 },
@@ -310,7 +310,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'silentceats-apk-mod',
     name: 'SILENTCEATS APK MOD',
     platform: 'android',
-    summary: 'Android APK mod with 1 day up to 28 day access.',
+    summary: 'APK mod for Android. Plans from 1 to 28 days.',
     compatibility: 'Android',
     prices: [
       { duration: '1 Day', usd: 0.8, bdt: 86 },
@@ -324,7 +324,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'bala-mod-android',
     name: 'BALA MOD ANDROID',
     platform: 'android',
-    summary: 'Android mod with hourly access — 1 hour up to 7 days. Priced in BDT.',
+    summary: 'For Android, with hourly plans from 1 hour to 7 days. Priced in BDT.',
     compatibility: 'Android',
     details: ['Hourly plans available', 'Priced in BDT'],
     prices: [
@@ -344,7 +344,7 @@ const ANDROID_PRODUCTS: Product[] = [
     slug: 'rocket-mod',
     name: 'ROCKET MOD',
     platform: 'android',
-    summary: 'Android mod with 1 day up to 30 day access. Priced in BDT.',
+    summary: 'For Android. Plans from 1 to 30 days, priced in BDT.',
     compatibility: 'Android',
     prices: [
       { duration: '1 Day', bdt: 70 },
@@ -365,7 +365,7 @@ const IOS_PRODUCTS: Product[] = [
     slug: 'fluorite-ios',
     name: 'FLUORITE iOS',
     platform: 'ios',
-    summary: 'iOS build with 1 day, 15 day and 1 month access.',
+    summary: 'For iPhone and iPad. Choose 1 day, 15 days or 1 month.',
     compatibility: 'iPhone & iPad',
     prices: [
       { duration: '1 Day', usd: 3, bdt: 400 },
@@ -379,7 +379,7 @@ const IOS_PRODUCTS: Product[] = [
     slug: 'migul-ios',
     name: 'MIGUL iOS',
     platform: 'ios',
-    summary: 'iOS build with 1 day, 7 day and 1 month access.',
+    summary: 'For iPhone and iPad. Choose 1 day, 7 days or 1 month.',
     compatibility: 'iPhone & iPad',
     prices: [
       { duration: '1 Day', usd: 2.5, bdt: 290 },
@@ -394,7 +394,7 @@ const IOS_PRODUCTS: Product[] = [
     image: '/art/products/gbox-esign-optimized.webp',
     name: 'GBOX & ESIGN',
     platform: 'ios',
-    summary: 'iOS signing tools bundle with 1 year access.',
+    summary: 'App signing tools for iPhone and iPad, with one year of access.',
     compatibility: 'iPhone & iPad',
     imageAlt: 'GBOX & ESIGN signing tools',
     prices: [{ duration: '1 Year', usd: 5 }],
@@ -405,7 +405,7 @@ const IOS_PRODUCTS: Product[] = [
     image: '/art/products/ios-external-optimized.webp',
     name: 'iOS EXTERNAL',
     platform: 'ios',
-    summary: 'External iOS build with 1 day, 7 day and 1 month access.',
+    summary: 'External build for iPhone and iPad. Choose 1 day, 7 days or 1 month.',
     compatibility: 'iPhone & iPad',
     imageAlt: 'iOS External build',
     prices: [
@@ -419,7 +419,7 @@ const IOS_PRODUCTS: Product[] = [
     slug: 'aim-hack-non-root-ios',
     name: 'AIM HACK — NON ROOT iOS',
     platform: 'ios',
-    summary: 'iOS aim hack for non-root devices, 1 day up to 30 day access.',
+    summary: 'Aim hack for non-root iPhone and iPad. Plans from 1 to 30 days.',
     compatibility: 'Non-root iPhone & iPad',
     prices: [
       { duration: '1 Day', usd: 1.3, bdt: 150 },
@@ -434,7 +434,7 @@ const IOS_PRODUCTS: Product[] = [
     logo: '/art/products/drip-wire-non-root-ios.webp',
     name: 'DRIP WIRE — NON ROOT iOS',
     platform: 'ios',
-    summary: 'iOS non-root build with 1 day up to 30 day access.',
+    summary: 'For non-root iPhone and iPad. Plans from 1 to 30 days.',
     compatibility: 'Non-root iPhone & iPad',
     prices: [
       { duration: '1 Day', usd: 1.3, bdt: 150 },
@@ -484,9 +484,9 @@ export const PLATFORMS: PlatformMeta[] = [
     label: 'PC',
     kanji: 'Windows',
     href: '/pc',
-    blurb: 'Built for Windows desktops and laptops.',
+    blurb: 'Windows desktops and laptops.',
     intro:
-      'Every build in this section is delivered for Windows PCs. Durations and prices are listed per product — monthly and lifetime options are marked where they exist.',
+      'Everything here runs on Windows PC. Each product lists its own plans and prices, and some have a lifetime option.',
     compatibility: 'Windows PC',
   },
   {
@@ -494,9 +494,9 @@ export const PLATFORMS: PlatformMeta[] = [
     label: 'Android',
     kanji: 'APK',
     href: '/android',
-    blurb: 'Built for Android phones and tablets.',
+    blurb: 'Android phones and tablets.',
     intro:
-      'Every build in this section is delivered for Android devices. Some entries are APK mods, some are root or non-root products, and some are priced in BDT only.',
+      'Everything here runs on Android. Some are APK mods, some need root and some do not, and a few are priced in BDT only.',
     compatibility: 'Android',
   },
   {
@@ -504,9 +504,9 @@ export const PLATFORMS: PlatformMeta[] = [
     label: 'iOS',
     kanji: 'iPhone',
     href: '/ios',
-    blurb: 'Built for iPhone and iPad.',
+    blurb: 'iPhone and iPad.',
     intro:
-      'Every build in this section is delivered for iPhone and iPad. Durations run from a single day up to a full year, and every price is listed per product.',
+      'Everything here runs on iPhone and iPad. Plans go from a single day up to a full year, and the price is shown on each product.',
     compatibility: 'iPhone & iPad',
   },
 ];

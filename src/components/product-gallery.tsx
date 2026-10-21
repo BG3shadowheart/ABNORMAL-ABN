@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { lockScroll, unlockScroll } from '@/components/prestige/scroll-lock';
+import { lockScroll, unlockScroll } from '@/lib/scroll-lock';
 
 export type GalleryImage = {
   src: string;
@@ -13,31 +13,25 @@ export type GalleryImage = {
 };
 
 /**
- * The product stage: a lit exhibition frame around the product artwork.
+ * The product picture, with a full-screen viewer.
  *
- *  - the light follows the pointer across the frame (screen-blended sheen),
- *  - corner brackets, a catalogue number and a scanline shimmer make it feel
- *    mounted rather than dropped on the page,
- *  - clicking the frame opens a full-screen viewer (Esc closes, ← → move
- *    between real images, focus returns to the trigger afterwards),
- *  - thumbnails only appear when a product really has more than one asset, so
- *    nothing is invented for products with a single image.
+ *  - clicking the picture opens the viewer (Esc closes, left and right arrows
+ *    move between images, focus returns to the picture afterwards),
+ *  - thumbnails only appear when a product really has more than one image.
  *
- * `first` is the server-rendered composite (ProductVisual) so the default view
- * keeps every product-specific detail — the viewer and thumbnails use the real
+ * `first` is the server-rendered picture (ProductVisual) so the default view
+ * keeps every product-specific detail; the viewer and thumbnails use the real
  * files returned by getProductImages().
  */
 export function ProductGallery({
   images,
   first,
   name,
-  label,
   badges,
 }: {
   images: GalleryImage[];
   first: ReactNode;
   name: string;
-  label?: string;
   badges?: ReactNode;
 }) {
   const [view, setView] = useState(0);
@@ -45,26 +39,8 @@ export function ProductGallery({
   const [mounted, setMounted] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const frameRef = useRef<HTMLButtonElement | null>(null);
-  const frameBox = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const thumbs = images.length > 1 ? images : [];
-
-  // The light inside the frame follows the pointer. Two CSS variables, no
-  // layout work, and it simply does not run for reduced-motion visitors.
-  useEffect(() => {
-    const node = frameBox.current;
-    if (!node) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const onMove = (event: PointerEvent) => {
-      const rect = node.getBoundingClientRect();
-      node.style.setProperty('--gx', `${(((event.clientX - rect.left) / rect.width) * 100).toFixed(1)}%`);
-      node.style.setProperty('--gy', `${(((event.clientY - rect.top) / rect.height) * 100).toFixed(1)}%`);
-    };
-
-    node.addEventListener('pointermove', onMove, { passive: true });
-    return () => node.removeEventListener('pointermove', onMove);
-  }, []);
 
   const openViewer = useCallback((index: number) => {
     setLightboxIndex(index);
@@ -114,26 +90,13 @@ export function ProductGallery({
 
   return (
     <div className="gallery">
-      <div className="gallery__frame panel" ref={frameBox}>
-        <span className="gallery__brackets" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className="gallery__scan" aria-hidden="true" />
-        <span className="gallery__glow" aria-hidden="true" />
-        <span className="gallery__index font-mono" aria-hidden="true">
-          {label ?? 'PRODUCT'} · 01
-        </span>
-
+      <div className="gallery__frame panel">
         <button
           ref={frameRef}
           type="button"
           onClick={() => openViewer(view)}
           className="gallery__stage"
-          aria-label={`Open ${name} artwork full screen`}
-          data-cursor="view"
+          aria-label={`Open ${name} picture full screen`}
         >
           {alternate ? (
             <span className="gallery__alt">
@@ -155,7 +118,7 @@ export function ProductGallery({
               <circle cx="9" cy="9" r="5.4" fill="none" stroke="currentColor" strokeWidth="1.5" />
               <path d="M9 6.6v4.8M6.6 9h4.8M13.3 13.3 17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-            <span>Expand</span>
+            <span>Enlarge</span>
           </span>
         </button>
 
@@ -163,7 +126,7 @@ export function ProductGallery({
       </div>
 
       {thumbs.length > 0 ? (
-        <div className="gallery__thumbs" role="tablist" aria-label={`${name} artwork views`}>
+        <div className="gallery__thumbs" role="tablist" aria-label={`${name} pictures`}>
           {thumbs.map((image, index) => (
             <button
               key={`${image.src}-${index}`}
@@ -179,7 +142,7 @@ export function ProductGallery({
                 <img src={image.src} alt="" loading="lazy" decoding="async" />
               </span>
               <span className="gallery__thumb-label">
-                {image.kind === 'artwork' ? 'Artwork' : 'Emblem'}
+                {image.kind === 'artwork' ? 'Picture' : 'Logo'}
               </span>
             </button>
           ))}
@@ -188,16 +151,15 @@ export function ProductGallery({
 
       {mounted && open && current
         ? createPortal(
-            <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${name} artwork`}>
-          <button type="button" className="lightbox__backdrop" onClick={close} aria-label="Close artwork" />
+            <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${name} picture`}>
+          <button type="button" className="lightbox__backdrop" onClick={close} aria-label="Close picture" />
           <div className="lightbox__panel">
             <div className="lightbox__bar">
               <span className="lightbox__cap">
-                <span className="lightbox__dot" aria-hidden="true" />
                 {name}
               </span>
-              <span className="lightbox__count font-mono">
-                {String(lightboxIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+              <span className="lightbox__count">
+                {lightboxIndex + 1} / {images.length}
               </span>
               <button ref={closeRef} type="button" onClick={close} className="lightbox__close" aria-label="Close">
                 <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -233,7 +195,7 @@ export function ProductGallery({
                 </button>
               </div>
             ) : (
-              <p className="lightbox__hint">Press Esc or click anywhere to close</p>
+              <p className="lightbox__hint">Press Esc or click outside to close</p>
             )}
           </div>
         </div>,

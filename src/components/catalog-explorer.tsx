@@ -12,7 +12,6 @@ import {
 import Link from 'next/link';
 import { ProductCard } from '@/components/product-card';
 import { ArrowIcon } from '@/components/ui';
-import { Reveal } from '@/components/reveal';
 
 type PlatformOption = Platform | 'all';
 
@@ -70,18 +69,12 @@ export function CatalogExplorer({
     platform === 'all' ? 'all platforms' : PLATFORM_LABEL[platform as Platform];
 
   return (
-    <div id={id} className={`scroll-mt-28 ${className}`}>
-      {/* ---------------------------------------------------------------- */}
-      {/* Controls                                                          */}
-      {/* ---------------------------------------------------------------- */}
+    <div id={id} className={`scroll-mt-24 ${className}`}>
       <div className="panel p-4 sm:p-5">
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)]">
           <div role="search">
-            <label
-              htmlFor="catalog-search"
-              className="text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-bone-500"
-            >
-              Search the catalog
+            <label htmlFor="catalog-search" className="field-label">
+              Search
             </label>
             <div className="relative mt-2">
               <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-bone-500">
@@ -95,7 +88,7 @@ export function CatalogExplorer({
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search by name — e.g. DRIP, PATO, iOS, proxy…"
+                placeholder="Try DRIP, PATO, proxy or bundle"
                 className="field pl-10"
                 autoComplete="off"
               />
@@ -103,11 +96,8 @@ export function CatalogExplorer({
           </div>
 
           <div>
-            <label
-              htmlFor="catalog-duration"
-              className="text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-bone-500"
-            >
-              Duration
+            <label htmlFor="catalog-duration" className="field-label">
+              Plan length
             </label>
             <select
               id="catalog-duration"
@@ -124,10 +114,7 @@ export function CatalogExplorer({
           </div>
 
           <div>
-            <label
-              htmlFor="catalog-sort"
-              className="text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-bone-500"
-            >
+            <label htmlFor="catalog-sort" className="field-label">
               Sort by
             </label>
             <select
@@ -146,10 +133,7 @@ export function CatalogExplorer({
         </div>
 
         {showPlatformFilter ? (
-          <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-ink-700/70 pt-5">
-            <span className="mr-1 hidden text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-bone-500 sm:inline">
-              Platform
-            </span>
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-ink-700 pt-4">
             {platformOptions.map((option) => (
               <button
                 key={option.id}
@@ -159,31 +143,28 @@ export function CatalogExplorer({
                 className="filter-pill"
               >
                 {option.label}
-                <span className="font-mono text-[0.68rem] text-bone-500">{option.count}</span>
+                <span className="text-xs text-bone-500">{option.count}</span>
               </button>
             ))}
           </div>
         ) : null}
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Result meta                                                       */}
-      {/* ---------------------------------------------------------------- */}
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-bone-400" aria-live="polite">
           {hidden > 0 ? (
             <>
-              Showing <span className="font-mono text-bone-100">{shown.length}</span> of{' '}
-              <span className="font-mono text-bone-100">{results.length}</span>
+              Showing {shown.length} of {results.length}
             </>
           ) : (
-            <span className="font-mono text-bone-100">{results.length}</span>
+            <>{results.length}</>
           )}{' '}
-          {results.length === 1 ? 'product' : 'products'} on {activePlatformLabel}
+          {results.length === 1 ? 'product' : 'products'}
+          {platform === 'all' ? '' : ` on ${activePlatformLabel}`}
           {query.trim() ? (
             <>
               {' '}
-              matching <span className="text-bone-100">“{query.trim()}”</span>
+              for <span className="text-bone-100">“{query.trim()}”</span>
             </>
           ) : null}
         </p>
@@ -195,24 +176,18 @@ export function CatalogExplorer({
         ) : null}
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Results                                                           */}
-      {/* ---------------------------------------------------------------- */}
       {results.length > 0 ? (
         <>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {shown.map((product, index) => (
-              <Reveal key={product.slug} delay={Math.min(index, 5) * 50} className="h-full">
-                <ProductCard product={product} />
-              </Reveal>
+              <ProductCard key={product.slug} product={product} priority={index < 3} />
             ))}
           </div>
 
           {hidden > 0 ? (
             <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
               <p className="text-sm text-bone-400">
-                <span className="font-mono text-bone-100">+{hidden}</span> more{' '}
-                {hidden === 1 ? 'product' : 'products'} in the full catalogue
+                {hidden} more {hidden === 1 ? 'product' : 'products'} in the full catalog
               </p>
               <Link href="/products" className="btn btn-primary !px-5 !py-2.5 !text-[0.82rem]">
                 Browse all {results.length} products
@@ -222,21 +197,12 @@ export function CatalogExplorer({
           ) : null}
         </>
       ) : (
-        <div className="panel mt-6 flex flex-col items-center gap-4 p-10 text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-ink-600 bg-ink-900 text-bone-400">
-            <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-              <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-              <path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
-          </span>
-          <div>
-            <h3 className="font-display text-lg text-bone-50">Nothing matches those filters</h3>
-            <p className="mt-2 max-w-md text-sm text-bone-400">
-              Try a shorter search term, switch the platform, or clear the filters to see the full
-              catalog again.
-            </p>
-          </div>
-          <button type="button" onClick={clearFilters} className="btn btn-primary">
+        <div className="panel mt-5 flex flex-col items-center gap-3 p-10 text-center">
+          <h3 className="font-display text-lg text-bone-50">Nothing matches that</h3>
+          <p className="max-w-md text-sm text-bone-400">
+            Try a shorter search, pick another platform, or clear the filters to see everything.
+          </p>
+          <button type="button" onClick={clearFilters} className="btn btn-primary mt-2">
             Show every product
           </button>
         </div>

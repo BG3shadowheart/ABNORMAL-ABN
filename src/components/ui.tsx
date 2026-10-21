@@ -8,35 +8,24 @@ import { formatBdt, formatUsd } from '@/lib/format';
 /* -------------------------------------------------------------------------- */
 
 export function SectionHeading({
-  eyebrow,
   title,
   description,
   action,
-  align = 'left',
+  as: Tag = 'h2',
   className = '',
 }: {
-  eyebrow?: string;
   title: ReactNode;
   description?: ReactNode;
   action?: ReactNode;
-  align?: 'left' | 'center';
+  as?: 'h1' | 'h2' | 'h3';
   className?: string;
 }) {
-  const centered = align === 'center';
-
   return (
-    <div
-      className={`flex flex-col gap-6 ${
-        centered ? 'items-center text-center' : 'md:flex-row md:items-end md:justify-between'
-      } ${className}`}
-    >
-      <div className={`max-w-2xl ${centered ? 'flex flex-col items-center' : ''}`}>
-        {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-        <h2 className="mt-4 font-display text-3xl leading-tight tracking-tight text-bone-50 sm:text-4xl lg:text-[2.75rem]">
-          {title}
-        </h2>
+    <div className={`flex flex-wrap items-end justify-between gap-x-6 gap-y-3 ${className}`}>
+      <div className="max-w-2xl">
+        <Tag className="font-display text-2xl leading-tight text-bone-50 sm:text-3xl">{title}</Tag>
         {description ? (
-          <p className="mt-4 text-[0.95rem] leading-relaxed text-bone-300">{description}</p>
+          <p className="mt-2 text-[0.95rem] leading-relaxed text-bone-300">{description}</p>
         ) : null}
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}
@@ -55,15 +44,7 @@ export function PlatformBadge({
   platform: Platform;
   className?: string;
 }) {
-  return (
-    <span className={`chip chip-platform ${className}`}>
-      <span
-        className="h-1.5 w-1.5 rounded-full bg-crimson-400"
-        style={{ boxShadow: '0 0 10px rgba(255,80,100,0.9)' }}
-      />
-      {PLATFORM_LABEL[platform]}
-    </span>
-  );
+  return <span className={`chip chip-platform ${className}`}>{PLATFORM_LABEL[platform]}</span>;
 }
 
 export function Chip({
@@ -92,10 +73,8 @@ export function PricePair({
   className?: string;
 }) {
   return (
-    <span className={`font-mono tabular-nums ${className}`}>
-      {typeof usd === 'number' ? (
-        <span className="text-bone-50">{formatUsd(usd)}</span>
-      ) : null}
+    <span className={`font-mono ${className}`}>
+      {typeof usd === 'number' ? <span className="text-bone-50">{formatUsd(usd)}</span> : null}
       {typeof usd === 'number' && typeof bdt === 'number' ? (
         <span className="mx-1.5 text-bone-500">/</span>
       ) : null}
@@ -150,17 +129,6 @@ export function LinkButton({
 /* -------------------------------------------------------------------------- */
 /* Small utilities                                                             */
 /* -------------------------------------------------------------------------- */
-
-export function Stat({ value, label }: { value: ReactNode; label: string }) {
-  return (
-    <div className="panel-quiet px-4 py-3">
-      <div className="font-display text-xl text-bone-50">{value}</div>
-      <div className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-bone-400">
-        {label}
-      </div>
-    </div>
-  );
-}
 
 export function Rule({ className = '' }: { className?: string }) {
   return <div className={`rule ${className}`} aria-hidden="true" />;

@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import type { Product } from '@/data/products';
+import { PLATFORM_LABEL } from '@/data/products';
 import { getStartingPrice, hasLifetimeOption } from '@/lib/catalog';
-import { durationHours, isLifetime } from '@/lib/format';
 import { ProductVisual } from '@/components/product-visual';
-import { ArrowIcon, Chip, PlatformBadge, PricePair } from '@/components/ui';
-import { Tilt } from '@/components/prestige/tilt';
+import { PricePair } from '@/components/ui';
 
+/**
+ * One product. The whole card is a single link, so there is one clear thing to
+ * tap. Price and plan length are the two facts a buyer looks for first.
+ */
 export function ProductCard({
   product,
   priority = false,
@@ -14,94 +17,47 @@ export function ProductCard({
   priority?: boolean;
 }) {
   const starting = getStartingPrice(product);
-  const durations = [...product.prices].sort(
-    (a, b) => durationHours(a.duration) - durationHours(b.duration),
-  );
-  const visibleDurations = durations.slice(0, 3);
-  const hiddenCount = durations.length - visibleDurations.length;
   const lifetime = hasLifetimeOption(product);
+  const plans = product.prices.length;
 
   return (
-    <Tilt className="h-full" max={5}>
-      <article
-        className="panel card-3d group relative flex h-full flex-col overflow-hidden focus-within:border-crimson-500/60"
-        data-cursor="view"
-      >
-        <span className="card-sheen" aria-hidden="true" />
+    <article className="product-card group">
+      <div className="art-frame aspect-16/10 w-full">
+        <ProductVisual product={product} priority={priority} context="card" />
+      </div>
 
-        <div className="art-frame relative aspect-16/10 w-full">
-          <ProductVisual product={product} priority={priority} context="card" />
+      <div className="flex flex-1 flex-col p-4">
+        <p className="text-xs text-bone-400">
+          {PLATFORM_LABEL[product.platform]}
+          {lifetime ? ' · Lifetime available' : ''}
+        </p>
 
-          <span className="card-hover-veil" aria-hidden="true" />
-          <span className="card-view" aria-hidden="true">
-            <span>Open</span>
-            <ArrowIcon className="h-4 w-4" />
-          </span>
+        <h3 className="mt-1 font-display text-base leading-snug text-bone-50">
+          <Link href={`/products/${product.slug}`} className="product-card__link">
+            {product.name}
+          </Link>
+        </h3>
 
-          <div className="absolute left-3 top-3 flex flex-wrap items-center gap-2">
-            <PlatformBadge platform={product.platform} />
-            {lifetime ? <Chip tone="aura">Lifetime</Chip> : null}
-          </div>
+        <p className="mt-2 text-sm leading-relaxed text-bone-400">{product.summary}</p>
 
-          {product.featured ? (
-            <span className="featured-badge absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-crimson-400/50 bg-ink-950/80 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-crimson-200 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-crimson-400 shadow-[0_0_10px_rgba(255,80,100,0.95)]" />
-              Featured
-            </span>
-          ) : null}
-        </div>
-
-        <div className="relative flex flex-1 flex-col p-5">
-          <h3 className="font-display text-[1.02rem] leading-snug tracking-wide text-bone-50">
-            <Link
-              href={`/products/${product.slug}`}
-              className="card-stretch relative z-[2] transition-colors hover:text-crimson-200"
-            >
-              {product.name}
-            </Link>
-          </h3>
-
-          <p className="mt-2.5 text-[0.83rem] leading-relaxed text-bone-400">{product.summary}</p>
-
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {visibleDurations.map((price) => (
-              <span
-                key={price.duration}
-                className={`chip ${isLifetime(price.duration) ? 'chip-aura' : ''}`}
-              >
-                {price.duration}
-              </span>
-            ))}
-            {hiddenCount > 0 ? <span className="chip">+{hiddenCount} more</span> : null}
-          </div>
-
-          <div className="mt-auto pt-5">
-            <div className="flex items-end justify-between gap-3 border-t border-ink-700/70 pt-4">
-              <div>
-                <div className="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-bone-500">
-                  {starting ? `From · ${starting.duration}` : 'Price'}
-                </div>
-                <div className="mt-1 text-[1.05rem] font-semibold">
-                  {starting ? (
-                    <PricePair usd={starting.usd} bdt={starting.bdt} />
-                  ) : (
-                    <span className="text-bone-400">Ask support</span>
-                  )}
-                </div>
-              </div>
-
-              <Link
-                href={`/products/${product.slug}`}
-                aria-label={`View details for ${product.name}`}
-                className="btn btn-ghost relative z-[3] !px-3.5 !py-2 !text-[0.72rem] text-bone-200 transition-colors group-hover:border-crimson-500/60 group-hover:text-white"
-              >
-                View details
-                <ArrowIcon className="h-3.5 w-3.5" />
-              </Link>
+        <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+          <div>
+            <div className="text-xs text-bone-500">
+              {starting ? `From, ${starting.duration}` : 'Price'}
+            </div>
+            <div className="mt-0.5 text-[1.05rem] font-semibold">
+              {starting ? (
+                <PricePair usd={starting.usd} bdt={starting.bdt} />
+              ) : (
+                <span className="text-bone-400">Ask support</span>
+              )}
             </div>
           </div>
+          <span className="text-xs text-bone-500">
+            {plans} {plans === 1 ? 'plan' : 'plans'}
+          </span>
         </div>
-      </article>
-    </Tilt>
+      </div>
+    </article>
   );
 }

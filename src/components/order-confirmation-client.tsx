@@ -62,12 +62,12 @@ export function OrderConfirmationClient() {
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-full border border-crimson-700/60 bg-crimson-900/30 text-crimson-200" aria-hidden="true">✓</span>
             <div>
-              <span className="eyebrow">Order request prepared</span>
-              <h1 className="mt-1 font-display text-2xl text-bone-50 sm:text-3xl">Send your payment proof</h1>
+              <span className="eyebrow">Your order summary is ready</span>
+              <h1 className="mt-1 font-display text-2xl text-bone-50 sm:text-3xl">Send us your payment proof</h1>
             </div>
           </div>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-bone-300">
-            Your details have <strong className="text-bone-100">not been uploaded or saved</strong>. Copy the summary below, then contact us on Discord, Telegram or WhatsApp, paste it there and attach your payment screenshot. Our team verifies the payment manually before delivery.
+            Nothing has been uploaded or saved. Copy the summary below, send it to us on Discord, Telegram or WhatsApp, and attach a screenshot of your payment. We check it by hand and then deliver.
           </p>
         </div>
         <div className="p-6 sm:p-8">

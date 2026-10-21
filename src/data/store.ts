@@ -20,11 +20,11 @@ export const STORE_NAME = 'ABNORMAL';
 export const STORE_NAME_KANJI = '異常';
 
 /** One-line positioning statement used in the hero and in SEO metadata. */
-export const STORE_TAGLINE = 'Premium products for PC, Android & iOS';
+export const STORE_TAGLINE = 'PC, Android and iOS products';
 
 /** Short paragraph shown under the hero headline. */
 export const STORE_DESCRIPTION =
-  'A curated catalog of PC, Android and iOS products with clear, fixed pricing in USD and BDT. Browse everything, then finish your order directly with our team.';
+  'PC, Android and iOS products with the price shown on every page. Pick one, pay with bKash, Nagad or Binance, and we deliver once we have checked your payment.';
 
 /** ⚠️ Replace with your real public URL after you deploy (used for SEO tags + sitemap). */
 export const STORE_URL = 'https://your-store.vercel.app';
@@ -58,8 +58,6 @@ export type PaymentMethod = {
   value: string;
   /** Short guidance line shown inside the payment card. */
   note: string;
-  /** Accent colour of the card. */
-  accent: 'crimson' | 'violet' | 'amber';
 };
 
 export const PAYMENT_METHODS: PaymentMethod[] = [
@@ -69,30 +67,27 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
     kind: 'Personal',
     fieldLabel: 'Account',
     value: '+880 1629-835648',
-    note: 'Personal account — send the exact amount, then keep the transaction ID.',
-    accent: 'crimson',
+    note: 'Personal account. Send the exact amount and keep the transaction ID.',
   },
   {
     id: 'nagad',
     name: 'Nagad',
     fieldLabel: 'Account',
     value: '+880 1629-835648',
-    note: 'Send the exact amount, then keep the transaction ID.',
-    accent: 'violet',
+    note: 'Send the exact amount and keep the transaction ID.',
   },
   {
     id: 'binance',
     name: 'Binance',
     fieldLabel: 'Account ID',
     value: '1220374728',
-    note: 'Binance Pay / internal transfer. Keep the transaction ID after sending.',
-    accent: 'amber',
+    note: 'Binance Pay or internal transfer. Keep the transaction ID after you send.',
   },
 ];
 
 /** Safety line printed next to every payment card. */
 export const PAYMENT_SAFETY_NOTE =
-  'We never ask for your PIN, password, OTP or wallet private key. Always confirm the product, duration and exact price with support before you pay.';
+  'We will never ask for your PIN, password, OTP or wallet private key. Before you pay, check the product, plan and exact price with us.';
 
 /* ---------------------------------------------------------------------------
  * 4. CATALOG BEHAVIOUR
@@ -133,22 +128,22 @@ export const CATALOG_HREF = '/products';
 
 export const ORDER_STEPS = [
   {
-    title: 'Pick your product and duration',
-    body: 'Open a product page and choose the exact duration you want. The price you see is the price you pay.',
+    title: 'Pick a product and a plan',
+    body: 'Open any product and choose how long you want it. The price on the page is the price you pay.',
   },
   {
     title: 'Send the payment',
-    body: 'Send the exact amount to the selected bKash, Nagad or Binance account. Keep your transaction ID/number and, for bKash/Nagad, the sender phone number.',
+    body: 'Send the exact amount by bKash, Nagad or Binance. Keep the transaction ID, and for bKash or Nagad the number you paid from.',
   },
   {
-    title: 'Submit the order on this website',
-    body: 'Enter the payment method, sender number for bKash/Nagad, and transaction ID/number. No account is needed and the website does not save your details.',
+    title: 'Fill in the order form',
+    body: 'Enter your payment method, the transaction ID and, for bKash or Nagad, your sender number. You do not need an account and nothing is saved on this site.',
   },
   {
-    title: 'Create a ticket and send proof',
-    body: 'Copy the order summary, open Discord and create a ticket or message us on Telegram or WhatsApp, paste the details and attach your payment proof. We deliver after manual verification.',
+    title: 'Send it to us with proof',
+    body: 'Copy the order summary, open a ticket on Discord (or message us on Telegram or WhatsApp), paste it in and attach your payment screenshot. We deliver after we have checked it by hand.',
   },
 ] as const;
 
 export const FOOTER_NOTE =
-  'Availability and delivery are confirmed by support before any payment is completed.';
+  'Our team confirms availability and delivery with you before you pay.';

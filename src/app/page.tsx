@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { Hero } from '@/components/hero';
+import { Home } from '@/components/home';
 import { STORE_DESCRIPTION, STORE_NAME, STORE_TAGLINE } from '@/data/store';
 
 export const metadata: Metadata = {
@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
-/** The home page is a single screen: no scrolling, no sections. */
 export default function HomePage() {
-  return <Hero />;
+  return <Home />;
 }

@@ -1,15 +1,14 @@
 import Image from 'next/image';
-import { STORE_NAME, STORE_NAME_KANJI } from '@/data/store';
+import { STORE_NAME } from '@/data/store';
 
 /**
- * Store emblem — the owner's own artwork from /public/brand/logo.png,
- * rendered through next/image so it is served at the right size.
- * To swap the logo later, just replace that file.
+ * Store logo — the owner's own artwork from /public/brand/logo.png.
+ * To swap it later, just replace that file.
  */
 export function LogoMark({ className = 'h-9 w-9' }: { className?: string }) {
   return (
     <span
-      className={`logo-mark relative inline-flex shrink-0 overflow-hidden rounded-[0.6rem] border border-crimson-700/60 bg-ink-900 shadow-[0_10px_30px_-16px_rgba(232,16,47,0.8)] ${className}`}
+      className={`relative inline-flex shrink-0 overflow-hidden rounded-lg border border-ink-600 bg-ink-900 ${className}`}
     >
       <Image
         src="/brand/logo.png"
@@ -23,23 +22,12 @@ export function LogoMark({ className = 'h-9 w-9' }: { className?: string }) {
   );
 }
 
-export function Logo({
-  className = '',
-  compact = false,
-}: {
-  className?: string;
-  compact?: boolean;
-}) {
+export function Logo({ className = '' }: { className?: string }) {
   return (
-    <span className={`logo-root flex items-center gap-3 ${className}`}>
-      <LogoMark className={compact ? 'h-8 w-8' : 'h-9 w-9'} />
-      <span className="flex flex-col leading-none">
-        <span className="logo-name font-display text-[1.05rem] font-semibold tracking-[0.24em] text-bone-50">
-          {STORE_NAME}
-        </span>
-        <span className="logo-kanji mt-1 text-[0.6rem] font-medium tracking-[0.42em] text-crimson-400/80">
-          {STORE_NAME_KANJI}
-        </span>
+    <span className={`flex items-center gap-2.5 ${className}`}>
+      <LogoMark />
+      <span className="font-display text-[1.05rem] font-semibold tracking-[0.12em] text-bone-50">
+        {STORE_NAME}
       </span>
     </span>
   );
