@@ -1,0 +1,133 @@
+/* Six full-screen horizontal sections on the home page. */
+body:has(.store-deck) .stage,
+body:has(.store-deck) .site-footer { display: none; }
+body:has(.store-deck) .site-header { background: #101014; backdrop-filter: none; }
+
+.store-deck { height: calc(100svh - 4rem); min-height: 34rem; overflow: hidden; color: #fff; }
+.store-deck__track {
+  display: flex; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden;
+  overscroll-behavior: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.store-deck__track::-webkit-scrollbar { display: none; }
+.store-panel {
+  position: relative; isolation: isolate; display: flex; flex: 0 0 100%; flex-direction: column;
+  justify-content: flex-start; height: 100%; min-width: 0; overflow-x: hidden; overflow-y: auto;
+  padding-block: 2.2rem 1rem; scroll-snap-align: start; scroll-snap-stop: always;
+  overscroll-behavior: contain; background: var(--panel-ground); color: #fff;
+}
+.store-panel--home { --panel-ground: #17493e; }
+.store-panel--pc { --panel-ground: #302862; }
+.store-panel--android { --panel-ground: #15594e; }
+.store-panel--ios { --panel-ground: #8e302d; }
+.store-panel--payments { --panel-ground: #705814; }
+.store-panel--support { --panel-ground: #155366; }
+.store-panel__art {
+  position: absolute; z-index: -1; top: 0; right: max(1rem, calc((100vw - 80rem) / 2));
+  display: block; width: min(48vw, 42rem); height: 60%; pointer-events: none;
+}
+.store-panel__art img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: right bottom; }
+.store-panel__intro,
+.store-panel__heading,
+.store-panel__payment-content,
+.store-panel__support-content {
+  position: relative; z-index: 1; width: min(100%, 84rem); margin-inline: auto; padding-inline: 2.5rem;
+}
+.store-panel__intro {
+  display: flex; min-height: 31%; flex: 0 0 auto; flex-direction: column; align-items: flex-start; justify-content: center;
+  padding-top: 0.5rem; padding-bottom: 1rem;
+}
+.store-panel__intro h1,
+.store-panel__heading h2 {
+  max-width: 12ch; color: #fff; font-family: var(--font-display);
+  font-size: clamp(2.3rem, 5vw, 4.6rem); font-weight: 600; letter-spacing: -0.035em; line-height: 0.98;
+}
+.store-panel__intro > p:not(.store-panel__count),
+.store-panel__heading p {
+  max-width: 42rem; margin-top: 0.85rem; color: rgb(255 255 255 / 90%);
+  font-size: clamp(0.95rem, 1.35vw, 1.1rem); line-height: 1.5;
+}
+.store-panel__actions { display: flex; align-items: center; gap: 1.4rem; margin-top: 1rem; }
+.store-panel__actions .btn { color: #171616; border-color: #fff; background: #fff; }
+.store-panel__actions .btn:hover { background: #eee; }
+.store-panel__text-link,
+.store-panel__browse {
+  display: inline-flex; align-items: center; gap: 0.5rem; color: #fff;
+  font-size: 0.9rem; font-weight: 650; text-underline-offset: 4px;
+}
+.store-panel__text-link:hover,
+.store-panel__browse:hover { text-decoration: underline; }
+.store-panel__count { margin-top: 0.65rem; color: rgb(255 255 255 / 86%); font-size: 0.84rem; }
+.store-panel__heading {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem;
+  min-height: 27%; padding-bottom: 0.75rem;
+}
+.store-panel__heading h2 { font-size: clamp(2.8rem, 6vw, 5.2rem); }
+.store-panel__browse { flex: 0 0 auto; margin-bottom: 0.4rem; }
+.store-panel__shelf { position: relative; z-index: 1; padding-top: 0; }
+.store-panel__shelf .hrow__head { margin-bottom: 0.5rem; }
+.store-panel__shelf .hrow__head h2,
+.store-panel__shelf .hrow__head h3 { color: #fff; font-size: 1.05rem; }
+.store-panel__shelf .hrow__head p { color: rgb(255 255 255 / 78%); }
+.store-panel__shelf .text-link { color: #fff; }
+.store-panel__shelf .hrow__arrow { color: #fff; border-color: rgb(255 255 255 / 70%); }
+.store-panel__shelf .hrow__arrow:hover:not(:disabled) { background: rgb(0 0 0 / 16%); border-color: #fff; }
+.store-panel__shelf .hscroll__track { padding-bottom: 0.35rem; scrollbar-width: none; }
+.store-panel__shelf .hscroll__track::-webkit-scrollbar { display: none; }
+.store-panel__shelf .hscroll__item { height: clamp(20rem, 48svh, 25.5rem); }
+.store-panel__shelf .product-card { border: 0; border-radius: 0; background: #111116; }
+.store-panel__shelf .product-card:hover { outline: 2px solid #fff; outline-offset: -2px; }
+.store-panel__payment-content { padding-top: 0.25rem; }
+.store-panel__payment-content .row-scroll { margin-inline: 0; padding-inline: 0; }
+.store-panel__payment-content .panel,
+.store-panel__payment-content .panel-quiet,
+.store-panel__support-content .panel { border: 0; border-radius: 0; background: #121216; color: #fff; }
+.store-panel__payment-content .text-bone-50,
+.store-panel__payment-content .text-bone-100,
+.store-panel__payment-content .text-bone-200,
+.store-panel__payment-content .text-bone-300,
+.store-panel__payment-content .text-bone-400,
+.store-panel__support-content .text-bone-50,
+.store-panel__support-content .text-bone-100,
+.store-panel__support-content .text-bone-200,
+.store-panel__support-content .text-bone-300,
+.store-panel__support-content .text-bone-400 { color: #fff; }
+.store-panel__payment-content .store-panel__steps {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem;
+}
+.store-panel__steps article { display: flex; gap: 0.7rem; align-items: flex-start; }
+.store-panel__steps article > span {
+  display: grid; width: 1.8rem; height: 1.8rem; flex: 0 0 auto; place-items: center;
+  border-radius: 50%; background: #fff; color: #201b0d; font-size: 0.78rem; font-weight: 700;
+}
+.store-panel__steps h3 { color: #fff; font-size: 0.92rem; line-height: 1.25; }
+.store-panel__steps p { margin-top: 0.25rem; color: rgb(255 255 255 / 84%); font-size: 0.78rem; line-height: 1.4; }
+.store-panel__support-content { margin-top: 1rem; }
+.store-panel__privacy {
+  position: relative; z-index: 1; width: min(100%, 84rem); margin: 1rem auto 0;
+  padding-inline: 2.5rem; color: rgb(255 255 255 / 88%); font-size: 0.85rem;
+}
+@media (max-width: 767px) {
+  .store-deck { min-height: 30rem; }
+  .store-panel { padding-block: 0.75rem 0.45rem; }
+  .store-panel__art { top: 0; right: -1.25rem; width: 70vw; height: 48%; opacity: 0.75; }
+  .store-panel__intro,
+  .store-panel__heading,
+  .store-panel__payment-content,
+  .store-panel__support-content,
+  .store-panel__privacy { padding-inline: 1.25rem; }
+  .store-panel__intro { min-height: 31%; padding-top: 0; }
+  .store-panel__intro h1 { max-width: 11ch; font-size: clamp(2.15rem, 9vw, 3.2rem); }
+  .store-panel__intro > p:not(.store-panel__count) { max-width: 33ch; font-size: 0.9rem; }
+  .store-panel__actions { gap: 0.8rem; flex-wrap: wrap; }
+  .store-panel__actions .btn { padding-inline: 0.85rem; }
+  .store-panel__count { font-size: 0.75rem; }
+  .store-panel__heading { min-height: 25%; align-items: flex-start; flex-direction: column; justify-content: flex-end; gap: 0.5rem; padding-bottom: 0.65rem; }
+  .store-panel__heading h2 { font-size: clamp(2.7rem, 12vw, 4.1rem); }
+  .store-panel__heading p { margin-top: 0.35rem; font-size: 0.9rem; }
+  .store-panel__browse { margin-bottom: 0; font-size: 0.8rem; }
+  .store-panel__shelf .hrow__head { min-height: 3rem; }
+  .store-panel__shelf .hscroll__item { width: min(78vw, 19rem); height: clamp(16rem, 40svh, 19rem); }
+  .store-panel__support-content { margin-top: 0.25rem; }
+  .store-panel__privacy { margin-top: 0.5rem; font-size: 0.75rem; }
+}
