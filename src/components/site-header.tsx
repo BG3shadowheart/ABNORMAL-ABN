@@ -2,15 +2,24 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { NAV_LINKS, CATALOG_HREF } from '@/data/store';
 import { Logo } from '@/components/logo';
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState('home');
 
   useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    const sync = (event: Event) => setActivePanel((event as CustomEvent<string>).detail);
+    window.addEventListener('abn:panelchange', sync);
+    const initial = window.location.hash.slice(1);
+    if (initial) setActivePanel(initial);
+    return () => window.removeEventListener('abn:panelchange', sync);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -21,8 +30,22 @@ export function SiteHeader() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [open]);
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+  const panelId = (href: string) => href === '/' ? 'home' : href.slice(1);
+  const sectionHref = (href: string) => pathname === '/' ? `#${panelId(href)}` : href;
+  const isActive = (href: string) => pathname === '/'
+    ? activePanel === panelId(href)
+    : href === '/' ? false : pathname === href || pathname.startsWith(`${href}/`);
+  const choosePanel = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname !== '/') return;
+    event.preventDefault();
+    const id = panelId(href);
+    const track = document.querySelector<HTMLElement>('.store-deck__track');
+    const panel = document.getElementById(id);
+    if (track && panel) {
+      track.scrollTo({ left: panel.offsetLeft, behavior: 'smooth' });
+      setOpen(false);
+    }
+  };
 
   return (
     <header className="site-header">
@@ -35,7 +58,8 @@ export function SiteHeader() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={sectionHref(link.href)}
+              onClick={(event) => choosePanel(event, link.href)}
               aria-current={isActive(link.href) ? 'page' : undefined}
               className="nav-link"
             >
@@ -71,7 +95,8 @@ export function SiteHeader() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={sectionHref(link.href)}
+              onClick={(event) => choosePanel(event, link.href)}
               aria-current={isActive(link.href) ? 'page' : undefined}
               className="mobile-nav__link"
             >
